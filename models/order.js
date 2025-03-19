@@ -27,6 +27,10 @@ const orderSchema = new mongoose.Schema({
     ref: 'Customer',
     required: true,
   },
+  customerName: {
+    type: String,
+    required: true,
+  },
   customerPhoneNumber: {
     type: String,
     required: true,

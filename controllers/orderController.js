@@ -7,6 +7,7 @@ exports.createOrder = async (req, res) => {
     associateEmail,
     products,
     customerId,
+    customerName,
     customerPhoneNumber,
     paymentStatus,
     warrantyTill
@@ -42,6 +43,7 @@ exports.createOrder = async (req, res) => {
       associateEmail,
       products,
       customerId,
+      customerName,
       customerPhoneNumber,
       paymentStatus,
       warrantyTill: warrantyDate,

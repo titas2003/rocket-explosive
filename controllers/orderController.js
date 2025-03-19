@@ -7,6 +7,7 @@ exports.createOrder = async (req, res) => {
     associateEmail,
     products,
     customerId,
+    orderId,
     customerName,
     customerPhoneNumber,
     paymentStatus,
@@ -43,6 +44,7 @@ exports.createOrder = async (req, res) => {
       associateEmail,
       products,
       customerId,
+      orderId,
       customerName,
       customerPhoneNumber,
       paymentStatus,
@@ -82,8 +84,10 @@ exports.getOrders = async (req, res) => {
 
 // Get a single order by ID
 exports.getOrderById = async (req, res) => {
+  const orderId = req.params.id;
+  console.log(orderId);
   try {
-    const order = await Order.findById(req.params._id).populate('products.productId').populate('customerId');
+    const order = await Order.find({orderId: orderId});
 
     if (!order) {
       return res.status(404).json({

@@ -18,10 +18,10 @@ const getProductByCategory = async (req, res) => {
 
 // 2. Get Product by ID
 const getProductById = async (req, res) => {
-  const { _id } = req.params;  // Get the product ID from the request parameters
-
+  const _id = req.params.id;  // Get the product ID from the request parameters
+  console.log(_id);
   try {
-    const product = await Product.findById(_id);  // Find the product by its ID
+    const product = await Product.findById({_id});  // Find the product by its ID
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }

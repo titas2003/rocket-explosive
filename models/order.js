@@ -22,6 +22,11 @@ const orderSchema = new mongoose.Schema({
       },
     },
   ],
+
+  orderId: {
+    type: String,
+    required: true,
+  },
   customerId: {
     type: String,
     ref: 'Customer',

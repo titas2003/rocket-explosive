@@ -10,6 +10,6 @@ router.post('/order', orderController.createOrder);
 router.get('/orders', orderController.getOrders);
 
 // Route to get a single order by ID
-router.get('/:id', orderController.getOrderById);
+router.get('/getorder/:id', orderController.getOrderById);
 
 module.exports = router;

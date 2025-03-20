@@ -1,5 +1,6 @@
 const Order = require('../models/order');
 const Product = require('../models/product');  // Import Product model for validation
+const transporter = require('../controllers/mailconf');
 
 // OrderNow API
 exports.createOrder = async (req, res) => {
@@ -9,6 +10,7 @@ exports.createOrder = async (req, res) => {
     customerId,
     orderId,
     customerName,
+    customerEmail,
     customerPhoneNumber,
     paymentStatus,
     warrantyTill
@@ -46,6 +48,7 @@ exports.createOrder = async (req, res) => {
       customerId,
       orderId,
       customerName,
+      customerEmail,
       customerPhoneNumber,
       paymentStatus,
       warrantyTill: warrantyDate,
@@ -55,6 +58,21 @@ exports.createOrder = async (req, res) => {
     // Save the order to the database
     await newOrder.save();
 
+    const mailOptions = {
+      from: 'nomail02024@gmail.com',
+      to: customerEmail,
+      subject: `Order ID: ${orderId} | Order Delivered to ${customerName}`,
+      text: `Dear ${customerName}.\n\nYour Order with order ID: ${orderId} have been successfully delivered.\nTotal Price paid: ${totalPrice} Rupees Only.\nWarranty expires in: ${warrantyDate} \nPlease find the order summary in: https://terrible-eagle-42.telebit.io/order-summary/${orderId}\n\nThanks and Regards,\nRocket Computers`
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+        res.status(500).send('Failed to send order status mail');
+      } else {
+        console.log('Email sent: ' + info.response);
+        res.status(200).send('Order status mail sent successfully');
+      }
+    });
     // Send response
     res.status(201).json({ message: 'Order placed successfully', order: newOrder });
   } catch (err) {
@@ -87,7 +105,7 @@ exports.getOrderById = async (req, res) => {
   const orderId = req.params.id;
   console.log(orderId);
   try {
-    const order = await Order.find({orderId: orderId});
+    const order = await Order.find({ orderId: orderId });
 
     if (!order) {
       return res.status(404).json({

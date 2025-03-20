@@ -36,6 +36,11 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  customerEmail:
+  {
+    type: String,
+    required: true
+  },
   customerPhoneNumber: {
     type: String,
     required: true,

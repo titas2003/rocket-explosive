@@ -43,5 +43,5 @@ app.use('/api/products', productRoutes);
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server running on this port ${port}`);
+  console.log(`Server running on a port ${port}`);
 });

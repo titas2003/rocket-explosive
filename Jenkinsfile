@@ -48,6 +48,18 @@ pipeline {
                 '''
             }
         }
+        stage('Push the UAT Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                        docker tag rocket-exp:v2.0.0 $DOCKER_USER/rocket-exp:v2.0.0
+                        docker push $DOCKER_USER/rocket-exp:v2.0.0
+                        docker logout
+                    '''
+                }
+            }
+        }
     }
 
 }
